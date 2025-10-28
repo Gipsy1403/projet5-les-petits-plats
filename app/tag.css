@@ -1,0 +1,27 @@
+.tag_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4rem 0;
+}
+.tag_container .tag_nbr_recipes {
+  font-size: 21px;
+}
+.tag_container select {
+  width: 195px;
+  height: 56px;
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px;
+  margin-right: 63px;
+  background-color: white;
+}
+.tag_container option {
+  font-size: 14px;
+}
+.tag_title {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 16px;
+}
