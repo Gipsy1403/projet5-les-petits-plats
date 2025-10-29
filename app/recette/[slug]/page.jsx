@@ -26,17 +26,17 @@ export default async function RecipePage({ params }) {
 		</div>
 		<div className="recipe_page_container">
 			<div className="recipe_page_image">
-			<Image 
-			src={`/assets/images_recipes/${recipe.image}`}
-			alt={recipe.name} 
-			width={606} 
-			height={738}
-			sizes="(max-width: 768px) 100vw, 606px"
-			style={{
-				objectFit: 'cover',
-				borderRadius: '21px'
-			}}
-			/>
+				<Image 
+					src={`/assets/images_recipes/${recipe.image}`}
+					alt={recipe.name} 
+					width={606} 
+					height={738}
+					sizes="(max-width: 768px) 100vw, 606px"
+					style={{
+						objectFit: 'cover',
+						borderRadius: '21px'
+					}}
+				/>
 			</div>
 			<div className="recipe_page_content">
 			<h2>{recipe.name}</h2>
