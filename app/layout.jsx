@@ -17,11 +17,15 @@ const manrope = Manrope({
   weight: ['400', '500', '700']
 });
 
+import TagProvider from './TagProvider';
+
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body suppressHydrationWarning className={`${anton.variable} ${manrope.variable}`}>
-        {children}
+        <TagProvider>
+          {children}
+        </TagProvider>
       </body>
     </html>
   );

@@ -1,40 +1,20 @@
-/* .tag_container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 4rem 0;
-}
-.tag_container .tag_nbr_recipes {
-  font-size: 21px;
-}
-.tag_container select {
-  width: 195px;
-  height: 56px;
-  border-radius: 11px;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 12px;
-  margin-right: 63px;
-  background-color: white;
-}
-.tag_container option {
-  font-size: 14px;
-}
-.tag_title {
-  font-size: 16px;
-  font-weight: 500;
-  padding: 12px 16px;
-} */
 .tag_container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin: 4rem 0;
+  flex-wrap: wrap;
 }
 
 .tag_container .select{
   display: flex;
   gap: 4rem;
+}
+
+.select_block{
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 .tag_container .tag_nbr_recipes {
   font-size: 21px;
@@ -72,42 +52,99 @@
 }
 .custom_select_menu {
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: 75%;
+  left: 8%;
   width: 100%;
   background-color: white;
-  border-radius: 11px;
+  border-radius: 0 0 11px 11px;
   max-height: 324px;
-  overflow-y: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow-y: hidden;
   z-index: 10;
 }
-
 .custom_select_search {
+	position: relative;
+	width: 90%;
+	margin: 0.5rem;
+	padding: 0.4rem;
+	border: 1px solid #c6c6c6;
+	border-radius: 6px;
+	margin-top: 0.6rem;
+}
+.custom_select_search input {
   width: 90%;
-  margin: 0.5rem;
-  padding: 0.4rem;
-  border: 1px solid #c6c6c6;
-  border-radius: 6px;
+  padding-right: 2rem;
+  outline: none;
+  font-size: 14px;
+  color: #7a7a7a;
+}
+.custom_select_search .icon_magnifying_glass {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  color: #7a7a7a;
 }
 
-.custom_select_options {
+.custom_select_items {
   list-style: none;
   padding: 0;
   margin: 0;
+  font-size: 14px;
 }
 
-.custom_select_options li {
+.custom_select_items li {
   padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
-.custom_select_option li:hover {
+.custom_select_item li:hover {
 
 }
 
-.no_options {
+.no_items {
   color: #999;
   text-align: center;
   padding: 0.5rem;
 }
+
+.selected_tags{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.selected_tags button{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.selected_tags .tag{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #e6e6e6;
+  border: none;
+  cursor: pointer;
+  width: 195px;
+  height: 53px;
+}
+
+.selected_tags .tag.appareils, .selected_tags .tag.ingredients, .selected_tags .tag.ustensiles{
+  background: #ffd15b;
+}
+
+.selected_tags .tag .icon_xmark{
+  font-size: 15px;
+}
+/* .selected_tags .clear_tags{
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+} */
