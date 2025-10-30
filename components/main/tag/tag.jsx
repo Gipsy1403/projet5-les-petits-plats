@@ -3,7 +3,7 @@ import "@/app/tag.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faXmark} from '@fortawesome/free-solid-svg-icons';
 import recipes from "@/data/recipes.json";
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 import { TagContext } from '@/app/TagProvider';
 
 export default function Tag() {
@@ -42,7 +42,6 @@ export default function Tag() {
 					</div>
 				)}
 			</div>
-
 			<h2 className="tag_nbr_recipes">x recettes</h2>
 		</div>
   );
@@ -51,21 +50,35 @@ export default function Tag() {
 function CustomSelect({name,item}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = useState("");
-	const [selected, setSelected] = useState("");
-	const { addTag } = useContext(TagContext);
+	const [availableItems, setAvailableItems] = useState(item);
+	// const [selected, setSelected] = useState("");
+	const { tags, addTag } = useContext(TagContext);
 
-	const filterItems = search.length>=3 ? item.filter(i => i.toLowerCase().includes(search.toLowerCase())) : item;
+	// const filterItems = search.length>=3 ? item.filter(i => i.toLowerCase().includes(search.toLowerCase())) : item;
+	const filterItems = search.length>=3 
+		? availableItems.filter(i => i.toLowerCase().includes(search.toLowerCase())) 
+		: availableItems;
 
 	const handleSelect=(value)=>{
-		setSelected(value);
+		// setSelected(value);
 		setIsOpen(false);
 		// add tag to global state
 		addTag({ type: name, value });
+		// setAvailableItems(prev=> prev.filter(i=>i!==value));
 	};
+
+	useEffect(() => {
+		const activeTags = tags
+			.filter(t => t.type === name)
+			.map(t => t.value);
+		const newAvailableItems = item.filter(i => !activeTags.includes(i));
+		setAvailableItems(newAvailableItems);
+	}, [tags, item, name]);
 	return (
 		<div className="custom_select">
 			<div className="custom_select_header" onClick={()=>setIsOpen(!isOpen)}>
-				{selected || name}
+				{/* {selected || name} */}
+				{name}
 				<i className={`arrow ${isOpen ? 'open' : ''}`}></i>
 			</div>
 			{isOpen && (

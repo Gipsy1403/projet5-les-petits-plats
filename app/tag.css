@@ -14,7 +14,6 @@
 .select_block{
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
 }
 .tag_container .tag_nbr_recipes {
   font-size: 21px;
@@ -25,7 +24,7 @@
   width: 195px;
   font-size: 16px;
   font-weight: 500;
-  padding: 12px 16px;
+  /* padding: 12px 16px; */
 }
 
 .custom_select_header {
@@ -53,13 +52,19 @@
 .custom_select_menu {
   position: absolute;
   top: 75%;
-  left: 8%;
+  left: 0;
   width: 100%;
   background-color: white;
   border-radius: 0 0 11px 11px;
   max-height: 324px;
-  overflow-y: hidden;
+  caret-color:auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   z-index: 10;
+}
+.custom_select_menu::-webkit-scrollbar {
+  display: none;
 }
 .custom_select_search {
 	position: relative;

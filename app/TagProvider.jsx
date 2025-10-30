@@ -4,8 +4,9 @@ import React, { createContext, useState } from "react";
 export const TagContext = createContext({
   tags: [],
   addTag: () => {},
-  removeTag: () => {},
+  removeTag: () => {}
 //   clearTags: () => {}
+	
 });
 
 export default function TagProvider({ children }) {
@@ -22,6 +23,12 @@ export default function TagProvider({ children }) {
   const removeTag = (tag) => {
     setTags(prev => prev.filter(t => !(t.type === tag.type && t.value === tag.value)));
   };
+//   const removeTag = (tag) => {
+// 	setTags(prev => prev.filter(t => t !== tag)); 
+// 	if(tag.type === "Ingrédients") setAvailableItems(prev => [...prev, tag.value]);
+// 	if(tag.type === "Appareils") setAvailableItems(prev => [...prev, tag.value]);
+// 	if(tag.type === "Ustensiles") setAvailableItems(prev => [...prev, tag.value]);
+//   };
 
 //   const clearTags = () => setTags([]);
 
