@@ -10,9 +10,9 @@ export default function Tag() {
 	const { tags, removeTag} = useContext(TagContext);
 	// const { tags, removeTag, clearTags } = useContext(TagContext);
 
-	const ingredientsSet = [...new Set(recipes.flatMap(r=>r.ingredients.map(ing=>ing.ingredient)))].sort();
-	const appareilsSet = [...new Set(recipes.map(r=>r.appliance))].sort();
-	const ustensilsSet = [...new Set(recipes.flatMap(r=>r.ustensils))].sort();
+	const ingredientsSet = cleanItems([...new Set(recipes.flatMap(r=>r.ingredients.map(ing=>ing.ingredient)))]).sort();
+	const appareilsSet = cleanItems([...new Set(recipes.map(r=>r.appliance))]).sort();
+	const ustensilsSet = cleanItems([...new Set(recipes.flatMap(r=>r.ustensils))]).sort();
 
   return (
 		<div className="tag_container">
@@ -74,6 +74,7 @@ function CustomSelect({name,item}) {
 		const newAvailableItems = item.filter(i => !activeTags.includes(i));
 		setAvailableItems(newAvailableItems);
 	}, [tags, item, name]);
+
 	return (
 		<div className="custom_select">
 			<div className="custom_select_header" onClick={()=>setIsOpen(!isOpen)}>
@@ -103,4 +104,29 @@ function CustomSelect({name,item}) {
 			)}
 		</div>
 	);
+}
+function normalize(word) {
+	return word
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/\p{Diacritic}/gu, '');
+}
+
+function cleanItems(items) {
+	const exceptions = ["ananas","cassis","maïs","riz","couscous","salsifis","radis","jus","houmous"];
+	const normalizedItems = items.map(i =>normalize(i));
+	const cleanedItems = []
+
+	for(let word of normalizedItems) {
+		if(exceptions.includes(word)) {
+			if(!cleanedItems.includes(word))
+				cleanedItems.push(word);
+				continue
+			}
+
+			const singular=word.replace(/(s|x)$/i, "");
+			if(normalizedItems.includes(singular) && word !== singular) continue;
+			if(!cleanedItems.includes(word)) cleanedItems.push(word);
+	}
+	return cleanedItems;
 }
