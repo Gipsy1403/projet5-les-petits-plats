@@ -1,14 +1,14 @@
 "use client";
-import "@/app/tag.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faXmark} from '@fortawesome/free-solid-svg-icons';
 import recipes from "@/data/recipes.json";
-import {useState, useContext, useEffect} from "react";
+import {useState, useContext, useMemo} from "react";
 import { TagContext } from '@/app/TagProvider';
+import "@/app/tag.css"
 
-export default function Tag() {
-	const { tags, removeTag} = useContext(TagContext);
-	// const { tags, removeTag, clearTags } = useContext(TagContext);
+export default function Tag({filterCount}) {
+	// const { tags, removeTag} = useContext(TagContext);
+	const { tags, removeTag,toggleTag} = useContext(TagContext);
 
 	const ingredientsSet = cleanItems([...new Set(recipes.flatMap(r=>r.ingredients.map(ing=>ing.ingredient)))]).sort();
 	const appareilsSet = cleanItems([...new Set(recipes.map(r=>r.appliance))]).sort();
@@ -18,12 +18,10 @@ export default function Tag() {
 		<div className="tag_container">
 			<div className="select_block">
 				<div className="select">
-						<CustomSelect name="Ingrédients" item={ingredientsSet} />
-						<CustomSelect name="Appareils" item={appareilsSet} />
-						<CustomSelect name="Ustensiles" item={ustensilsSet} />
+					<CustomSelect name="Ingrédients" item={ingredientsSet} />
+					<CustomSelect name="Appareils" item={appareilsSet} />
+					<CustomSelect name="Ustensiles" item={ustensilsSet} />
 				</div>
-
-				{/* Tags sélectionnés placés directement sous le bloc .select */}
 				{tags.length > 0 && (
 					<div className="selected_tags">
 						{tags.map((t, i) => {
@@ -33,16 +31,26 @@ export default function Tag() {
 								.replace(/\p{Diacritic}/gu, '')
 								.replace(/\s+/g, '');
 							return (
-								<button key={i} className={`tag ${typeClass}`} onClick={() => removeTag(t)}>
-									{t.value}
-									<FontAwesomeIcon icon={faXmark} className="icon_xmark" />
+								<button
+								key={i}
+								className={`tag ${typeClass} ${t.isActive ? 'active' : ''}`} // optionnel : style si actif
+								onClick={() => removeTag(t)}
+								>
+								{/* {t.value} */}
+								{t.value.charAt(0).toUpperCase() + t.value.slice(1)}
+								<FontAwesomeIcon icon={faXmark} className="icon_xmark" />
 								</button>
+
+								// <button key={i} className={`tag ${typeClass}`} onClick={() => removeTag(t)}>
+								// 	{t.value}
+								// 	<FontAwesomeIcon icon={faXmark} className="icon_xmark" />
+								// </button>
 							);
 						})}
 					</div>
 				)}
 			</div>
-			<h2 className="tag_nbr_recipes">x recettes</h2>
+			<h2 className="tag_nbr_recipes">{filterCount} recettes</h2>
 		</div>
   );
 }
@@ -50,9 +58,24 @@ export default function Tag() {
 function CustomSelect({name,item}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = useState("");
-	const [availableItems, setAvailableItems] = useState(item);
+	// const [availableItems, setAvailableItems] = useState(item);
 	// const [selected, setSelected] = useState("");
 	const { tags, addTag } = useContext(TagContext);
+
+	const availableItems = useMemo(() => {
+		const activeTags = tags
+			.filter(t => t.type === name)
+			.map(t => t.value.toLowerCase());
+		return item.filter(i => !activeTags.includes(i.toLowerCase()));
+	}, [tags, item, name]);
+
+	// useEffect(() => {
+	// 	const activeTags = tags
+	// 		.filter(t => t.type === name)
+	// 		.map(t => t.value);
+	// 	const newAvailableItems = item.filter(i => !activeTags.includes(i));
+	// 	setAvailableItems(newAvailableItems);
+	// }, [tags, item, name]);
 
 	// const filterItems = search.length>=3 ? item.filter(i => i.toLowerCase().includes(search.toLowerCase())) : item;
 	const filterItems = search.length>=3 
@@ -66,15 +89,7 @@ function CustomSelect({name,item}) {
 		addTag({ type: name, value });
 		// setAvailableItems(prev=> prev.filter(i=>i!==value));
 	};
-
-	useEffect(() => {
-		const activeTags = tags
-			.filter(t => t.type === name)
-			.map(t => t.value);
-		const newAvailableItems = item.filter(i => !activeTags.includes(i));
-		setAvailableItems(newAvailableItems);
-	}, [tags, item, name]);
-
+	
 	return (
 		<div className="custom_select">
 			<div className="custom_select_header" onClick={()=>setIsOpen(!isOpen)}>
@@ -128,5 +143,9 @@ function cleanItems(items) {
 			if(normalizedItems.includes(singular) && word !== singular) continue;
 			if(!cleanedItems.includes(word)) cleanedItems.push(word);
 	}
-	return cleanedItems;
+	const formatedItems = cleanedItems.map(w => 
+		w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+	);
+	return formatedItems;
 }
+

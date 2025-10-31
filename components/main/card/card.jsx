@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
-import "@/app/card.css";
 import Link from "next/link";
+import "@/app/card.css"
 
 export default function Card({ recipe }) {
 	return (
@@ -35,3 +36,4 @@ export default function Card({ recipe }) {
 		</Link>
 	);
 }
+
