@@ -1,11 +1,17 @@
 import recipes from "@/data/recipes.json";
 import Image from "next/image";
 import NotFound from "./not_found";
+// Import du composant NotFound, affiché si la recette n’existe pas
 import "@/app/recipe_page.css";
 
 export default async function RecipePage({ params }) {
+	// Déclaration du composant RecipePage comme fonction asynchrone
+// params : objet contenant les paramètres dynamiques de l'URL (ex: slug)
   const { slug } = await params;
+  // Récupère le paramètre 'slug' depuis l'URL. 
+  // 'await' n'est pas nécessaire ici si params n’est pas une promesse, mais garde l’asynchronicité si tu prévois des fetchs
   const recipe = recipes.find((r) => r.slug === slug);
+    // Recherche dans le tableau recipes la recette dont le slug correspond au paramètre de l’URL
   
   if (!recipe) {
     return NotFound();
