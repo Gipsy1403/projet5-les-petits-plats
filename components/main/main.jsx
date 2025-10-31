@@ -29,6 +29,7 @@ export default function Main({allRecipes}) {
 		});
 	});
 	}, [allRecipes, activeTags]);
+	
 
   return (
     <main>

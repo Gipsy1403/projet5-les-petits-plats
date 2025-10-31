@@ -1,14 +1,13 @@
 "use client";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faXmark} from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faCircleXmark, faXmark} from '@fortawesome/free-solid-svg-icons';
 import recipes from "@/data/recipes.json";
-import {useState, useContext, useMemo} from "react";
+import {useState, useContext} from "react";
 import { TagContext } from '@/app/TagProvider';
 import "@/app/tag.css"
 
 export default function Tag({filterCount}) {
-	// const { tags, removeTag} = useContext(TagContext);
-	const { tags, removeTag,toggleTag} = useContext(TagContext);
+	const { tags, removeTag} = useContext(TagContext);
 
 	const ingredientsSet = cleanItems([...new Set(recipes.flatMap(r=>r.ingredients.map(ing=>ing.ingredient)))]).sort();
 	const appareilsSet = cleanItems([...new Set(recipes.map(r=>r.appliance))]).sort();
@@ -33,97 +32,109 @@ export default function Tag({filterCount}) {
 							return (
 								<button
 								key={i}
-								className={`tag ${typeClass} ${t.isActive ? 'active' : ''}`} // optionnel : style si actif
+								className={`tag ${typeClass} ${t.isActive ? 'active' : ''}`} 
 								onClick={() => removeTag(t)}
 								>
-								{/* {t.value} */}
 								{t.value.charAt(0).toUpperCase() + t.value.slice(1)}
 								<FontAwesomeIcon icon={faXmark} className="icon_xmark" />
 								</button>
-
-								// <button key={i} className={`tag ${typeClass}`} onClick={() => removeTag(t)}>
-								// 	{t.value}
-								// 	<FontAwesomeIcon icon={faXmark} className="icon_xmark" />
-								// </button>
 							);
 						})}
 					</div>
 				)}
 			</div>
-			<h2 className="tag_nbr_recipes">{filterCount} recettes</h2>
+			<h2 className="tag_nbr_recipes">{filterCount}{filterCount<=1?" recette": " recettes"}</h2>
 		</div>
   );
 }
+function CustomSelect({ name, item }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const { tags, addTag, removeTag } = useContext(TagContext);
+  const activeTags = tags.filter(t => t.type === name);
+  
+//   const availableItems = useMemo(() => {
+//     		return item.filter(i => !activeTags.map(t => t.value.toLowerCase()).includes(i.toLowerCase()));
+//   }, [tags, item, name]);
 
-function CustomSelect({name,item}) {
-	const [isOpen, setIsOpen] = useState(false);
-	const [search, setSearch] = useState("");
-	// const [availableItems, setAvailableItems] = useState(item);
-	// const [selected, setSelected] = useState("");
-	const { tags, addTag } = useContext(TagContext);
+  const availableItems = item.filter(i => 
+  !tags
+    .filter(t => t.type === name && t.isActive)
+    .map(t => t.value.toLowerCase())
+    .includes(i.toLowerCase())
+);
 
-	const availableItems = useMemo(() => {
-		const activeTags = tags
-			.filter(t => t.type === name)
-			.map(t => t.value.toLowerCase());
-		return item.filter(i => !activeTags.includes(i.toLowerCase()));
-	}, [tags, item, name]);
+  const filterItems = search.length >= 3
+    ? availableItems.filter(i => i.toLowerCase().includes(search.toLowerCase()))
+    : availableItems;
 
-	// useEffect(() => {
-	// 	const activeTags = tags
-	// 		.filter(t => t.type === name)
-	// 		.map(t => t.value);
-	// 	const newAvailableItems = item.filter(i => !activeTags.includes(i));
-	// 	setAvailableItems(newAvailableItems);
-	// }, [tags, item, name]);
+  const handleSelect = (value) => {
+    addTag({ type: name, value });
+    setIsOpen(false);
+  };
 
-	// const filterItems = search.length>=3 ? item.filter(i => i.toLowerCase().includes(search.toLowerCase())) : item;
-	const filterItems = search.length>=3 
-		? availableItems.filter(i => i.toLowerCase().includes(search.toLowerCase())) 
-		: availableItems;
+  return (
+    <div className="custom_select">
+      {/* Barre de titre */}
+      <div className="custom_select_header" onClick={() => setIsOpen(!isOpen)}>
+        {name}
+        <i className={`arrow ${isOpen ? "open" : ""}`}></i>
+      </div>
 
-	const handleSelect=(value)=>{
-		// setSelected(value);
-		setIsOpen(false);
-		// add tag to global state
-		addTag({ type: name, value });
-		// setAvailableItems(prev=> prev.filter(i=>i!==value));
-	};
-	
-	return (
-		<div className="custom_select">
-			<div className="custom_select_header" onClick={()=>setIsOpen(!isOpen)}>
-				{/* {selected || name} */}
-				{name}
-				<i className={`arrow ${isOpen ? 'open' : ''}`}></i>
-			</div>
-			{isOpen && (
-				<div className="custom_select_menu">
-					<div className="custom_select_search">
-						<input
-							type="text"
-							value={search}
-							onChange={(e) => setSearch(e.target.value)}
-						/>
-						<FontAwesomeIcon icon={faMagnifyingGlass} className="icon_magnifying_glass" />
-					</div>
-					<ul className="custom_select_items">
-						{filterItems.map((it, i) => (
-							<li key={i} onClick={() => handleSelect(it)} className="select_item">
-								{it}
-							</li>
-						))}
-						{filterItems.length === 0 && <li className="no_items">Le terme `{search}` ne se trouve pas dans la liste</li>}
-					</ul>
-				</div>
-			)}
-		</div>
-	);
+      {/* --- Menu déroulant --- */}
+      {isOpen && (
+        <div className="custom_select_menu">
+          <div className="custom_select_search">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              className="icon_magnifying_glass"
+            />
+          </div>
+
+          {/* Tags actifs sous l'input dans le menu */}
+          {activeTags.length > 0 && (
+            <div className="selected_tags_inside">
+              {activeTags.map((t, i) => (
+                <button
+                  key={i}
+                  className="tag_inside"
+                  onClick={() => removeTag(t)}
+                >
+                  {t.value}
+                  <FontAwesomeIcon icon={faCircleXmark} className="icon_xmark" />
+                </button>
+              ))}
+            </div>
+          )}
+
+          <ul className="custom_select_items">
+            {filterItems.map((it, i) => (
+              <li key={i} onClick={() => handleSelect(it)} className="select_item">
+                {it}
+              </li>
+            ))}
+            {filterItems.length === 0 && (
+              <li className="no_items">
+                Le terme “{search}” ne se trouve pas dans la liste
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
 }
+
+
 function normalize(word) {
 	return word
 		.toLowerCase()
-		.normalize('NFD')
+		// .normalize('NFD')
 		.replace(/\p{Diacritic}/gu, '');
 }
 
