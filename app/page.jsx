@@ -10,8 +10,9 @@ export default function Home() {
 
   return (
     <div className="app">
-      <Header />
+      <Header allRecipes={allRecipes}/>
       <Main allRecipes={allRecipes}/>
+      {/* <Main allRecipes={allRecipes}/> */}
       <Footer />
     </div>
   );

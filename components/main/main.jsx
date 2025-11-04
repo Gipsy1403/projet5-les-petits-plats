@@ -10,6 +10,7 @@ import { TagContext } from "@/app/TagProvider";
 
 
 export default function Main({allRecipes}) {
+// export default function Main({allRecipes}) {
 	const { tags } = useContext(TagContext);
 	// Ici, tags est un tableau d'objets, chaque objet représentant un tag (ex: {value: "Tomate", type: "Ingrédients", isActive: true/false}).
 	const activeTags = tags.filter(t => t.isActive);
@@ -49,16 +50,15 @@ export default function Main({allRecipes}) {
 	
 
   return (
-    <main>
+    <div>
       <Tag  filterCount={filteredRecipes.length}/>
       <div className="card_container">
         {filteredRecipes.map((recipe) => (
           <Card key={recipe.id} recipe={recipe} />
 		// Affiche chaque recette filtrée via le composant Card. 
           // La prop key est obligatoire pour React lors du rendu de listes.
-
         ))}
       </div>
-    </main>
+    </div>
   );
 }

@@ -4,6 +4,18 @@ import NotFound from "./not_found";
 // Import du composant NotFound, affiché si la recette n’existe pas
 import "@/app/recipe_page.css";
 
+function RecipeDescription({description}){
+	const steps=description.split('.').filter(p=>p.trim() !== "");
+
+	return (
+		<ol className="step_description_recipe">
+			{steps.map((step,i)=>(
+				<li key={i}>{step.trim()}</li>
+			))}
+		</ol>
+	);
+}
+
 export default async function RecipePage({ params }) {
 	// Déclaration du composant RecipePage comme fonction asynchrone
 // params : objet contenant les paramètres dynamiques de l'URL (ex: slug)
@@ -73,9 +85,11 @@ export default async function RecipePage({ params }) {
 				</ul>
 			</div>
 			<h3>Recette</h3>
-			<p>{recipe.description}</p>
+			<RecipeDescription description={recipe.description} />
+			{/* <p>{recipe.description}</p> */}
 			</div>
 		</div>
 	</div>
   );
 }
+

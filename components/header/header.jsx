@@ -1,11 +1,11 @@
-import SearchBar from "@/components/header/searchbar/searchbar";
+import SearchBar from "./searchbar/searchbar";
 import Image from "next/image";
 import "@/app/banner.css";
 
 
-export default function Header() {
+export default function Header({allRecipes}) {
 	  return (
-		<header>
+		<div className="header">
 			<div className="logo">
 				<Image 
 					src="/assets/IMG/Logo.png"
@@ -17,8 +17,8 @@ export default function Header() {
 			</div>
 			<div className="content_banner">
 				<h1 className="title_banner">Découvrez nos recettes <span>du quotidien, simples et délicieuses</span></h1>
-				<SearchBar></SearchBar>
+				<SearchBar allRecipes={allRecipes}/>
 			</div>
-		</header>
+		</div>
 	  )
 	}

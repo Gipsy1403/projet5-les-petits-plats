@@ -1,4 +1,4 @@
-header {
+.header {
 	background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url('/assets/IMG/img_banner.jpg');
 	background-position: center, center -214px;
 	background-size: cover, cover;

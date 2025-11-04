@@ -68,6 +68,13 @@
 	color: #7a7a7a;
 	font-weight: 500;
 }
+
+.step_description_recipe{
+	list-style-type: decimal;
+	padding-left: 1.5rem;
+	margin-top: 0.5rem;
+}
+
 .not_found{
 	background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url('/assets/IMG/img_banner.jpg');
 	background-position: center, center -214px;
