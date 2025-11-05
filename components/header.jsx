@@ -1,9 +1,9 @@
-import SearchBar from "./searchbar/searchbar";
 import Image from "next/image";
-import "@/app/banner.css";
+import "@/app/styles.css";
 
 
-export default function Header({allRecipes}) {
+
+export default function Header() {
 	  return (
 		<div className="header">
 			<div className="logo">
@@ -17,7 +17,7 @@ export default function Header({allRecipes}) {
 			</div>
 			<div className="content_banner">
 				<h1 className="title_banner">Découvrez nos recettes <span>du quotidien, simples et délicieuses</span></h1>
-				<SearchBar allRecipes={allRecipes}/>
+				
 			</div>
 		</div>
 	  )

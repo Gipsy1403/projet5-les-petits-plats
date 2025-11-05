@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin: 4rem 0;
+  margin: 4rem 4rem;
   flex-wrap: wrap;
 }
 
@@ -169,3 +169,18 @@
   font-size: 15px;
 }
 
+@media (max-width: 974px) {
+	.tag_container .select{
+  		gap: 10px;
+		flex-direction: column;
+	}
+	.select_block{
+		margin: auto;
+	}
+	.tag_container .tag_nbr_recipes{
+  		margin: auto;
+	}
+	.selected_tags{
+		justify-content: center;
+	}
+}

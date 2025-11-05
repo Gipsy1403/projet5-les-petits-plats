@@ -1,21 +1,16 @@
 "use client";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faCircleXmark, faXmark} from '@fortawesome/free-solid-svg-icons';
-import recipes from "@/data/recipes.json";
-import {useState, useContext} from "react";
-import { TagContext } from '@/app/TagProvider';
+// import recipes from "@/data/recipes.json";
+import {useState} from "react";
 import "@/app/tag.css"
 
-export default function Tag({filterCount}) {
+export default function Tag({filterCount, tags, addTag, removeTag, allRecipes}) {
 	// Déclaration du composant Tag, qui prend en prop filterCount : nombre de recettes filtrées.
-	const { tags, removeTag} = useContext(TagContext);
-	 // Récupère depuis le contexte : 
-  // - tags : tous les tags existants
-  // - removeTag : fonction pour retirer un tag actif
 
-	const ingredientsSet = cleanItems([...new Set(recipes.flatMap(r=>r.ingredients.map(ing=>ing.ingredient)))]).sort();
-	const appareilsSet = cleanItems([...new Set(recipes.map(r=>r.appliance))]).sort();
-	const ustensilsSet = cleanItems([...new Set(recipes.flatMap(r=>r.ustensils))]).sort();
+	const ingredientsSet = cleanItems([...new Set(allRecipes.flatMap(r=>r.ingredients.map(ing=>ing.ingredient)))]).sort();
+	const appareilsSet = cleanItems([...new Set(allRecipes.map(r=>r.appliance))]).sort();
+	const ustensilsSet = cleanItems([...new Set(allRecipes.flatMap(r=>r.ustensils))]).sort();
 	  // - flatMap pour transformer les tableaux imbriqués en un seul tableau
   // - new Set pour obtenir des valeurs uniques
   // - cleanItems pour normaliser (singulier, majuscules, etc.)
@@ -25,9 +20,9 @@ export default function Tag({filterCount}) {
 		<div className="tag_container">
 			<div className="select_block">
 				<div className="select">
-					<CustomSelect name="Ingrédients" item={ingredientsSet} />
-					<CustomSelect name="Appareils" item={appareilsSet} />
-					<CustomSelect name="Ustensiles" item={ustensilsSet} />
+					<CustomSelect name="Ingrédients" item={ingredientsSet} tags={tags} addTag={addTag}removeTag={removeTag}/>
+					<CustomSelect name="Appareils" item={appareilsSet} tags={tags} addTag={addTag}removeTag={removeTag} />
+					<CustomSelect name="Ustensiles" item={ustensilsSet} tags={tags} addTag={addTag}removeTag={removeTag} />
 				</div>
 				{tags.length > 0 && (
 					 // Affiche les tags actifs seulement si il y en a
@@ -63,13 +58,11 @@ export default function Tag({filterCount}) {
   );
 }
 // Composant Menu déroulant pour chaque type de tag
-function CustomSelect({ name, item }) {
+function CustomSelect({ name, item, tags, addTag, removeTag }) {
   const [isOpen, setIsOpen] = useState(false);
     // État du menu déroulant (ouvert/fermé)
   const [search, setSearch] = useState("");
     // État de la barre de recherche
-  const { tags, addTag, removeTag } = useContext(TagContext);
-    // Accès aux tags et aux fonctions addTag/removeTag
   const activeTags = tags.filter(t => t.type === name);
    // Filtre des tags actifs de ce type
 
@@ -98,7 +91,7 @@ function CustomSelect({ name, item }) {
       <div className="custom_select_header" onClick={() => setIsOpen(!isOpen)}>
         {name}
         <i className={`arrow ${isOpen ? "open" : ""}`}></i>
-	    {/* Flèche qui change selon si le menu est ouvert */}
+	    {/* Flèche qui change si le menu est ouvert */}
       </div>
 
       {/* --- Menu déroulant --- */}
@@ -170,13 +163,12 @@ function cleanItems(items) {
 			if(!cleanedItems.includes(word))
 				cleanedItems.push(word);
 				continue
-			}
-
-			const singular=word.replace(/(s|x)$/i, "");
-			 // Supprime le "s" ou "x" final pour avoir le singulier
-			if(normalizedItems.includes(singular) && word !== singular) continue;
-			// Si le singulier existe déjà dans la liste, ignore la forme plurielle
-			if(!cleanedItems.includes(word)) cleanedItems.push(word);
+		}
+		const singular=word.replace(/(s|x)$/i, "");
+			// Supprime le "s" ou "x" final pour avoir le singulier
+		if(normalizedItems.includes(singular) && word !== singular) continue;
+		// Si le singulier existe déjà dans la liste, ignore la forme plurielle
+		if(!cleanedItems.includes(word)) cleanedItems.push(word);
 	}
 	const formatedItems = cleanedItems.map(w => 
 		w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()

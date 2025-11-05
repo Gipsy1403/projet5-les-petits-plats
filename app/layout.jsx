@@ -2,6 +2,9 @@ import "./globals.css";
 import { Anton, Manrope } from "next/font/google";
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import Header from "@/components/header";
+import Home from "./page";
+import Footer from "@/components/footer";
 
 config.autoAddCss = false;
 // Désactive l'injection automatique du CSS de Font Awesome par React
@@ -19,9 +22,6 @@ const manrope = Manrope({
   weight: ['400', '500', '700']
 });
 
-import TagProvider from './TagProvider';
-// Import du contexte global TagProvider pour gérer les tags actifs
-
 
 export default function RootLayout({ children }) {
 	// Composant RootLayout qui enveloppe toute l'application
@@ -33,10 +33,10 @@ export default function RootLayout({ children }) {
           suppressHydrationWarning : évite les warnings liés au rendu côté client vs serveur
           className : applique les polices Anton et Manrope via les variables CSS
         */}
-        <TagProvider>
-		 {/* Enveloppe tous les enfants avec le contexte des tags pour qu’ils puissent y accéder */}
-          {children}
-        </TagProvider>
+		<Header />
+		<Home>{children}</Home>
+		{/* <Main allRecipes={allRecipes}/> */}
+		<Footer />
       </body>
     </html>
   );

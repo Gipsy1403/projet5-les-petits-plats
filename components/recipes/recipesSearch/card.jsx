@@ -1,4 +1,3 @@
-"use client";
 import Image from "next/image";
 // Import du composant Image de Next.js, qui optimise automatiquement le chargement des images
 import Link from "next/link";
