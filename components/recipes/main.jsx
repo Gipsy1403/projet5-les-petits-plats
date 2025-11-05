@@ -90,24 +90,42 @@ export default function Main({allRecipes}) {
 
   return (
     <div>
-		<SearchBar allRecipes={allRecipes} onSearchResults={(results, active) => {
-  setSearchResults(results);
-  setIsSearching(active);
-}}/>
+		<SearchBar 
+			allRecipes={allRecipes} 
+			onSearchResults={(results, active) => {
+				setSearchResults(results);
+				setIsSearching(active);
+			}}
+		/>
 		<Tag 
-				filterCount={filteredRecipes.length}
-				tags={tags}
-				addTag={addTag}
-				removeTag={removeTag}
-				toggleTag={toggleTag}
-				allRecipes={allRecipes}/>
+			filterCount={
+				isSearching 
+				? searchResults.length 
+				: filteredRecipes.length
+			}
+			tags={tags}
+			addTag={addTag}
+			removeTag={removeTag}
+			toggleTag={toggleTag}
+			allRecipes={allRecipes}
+		/>
 		<div className="card_container">
-			  {isSearching
-    ? (searchResults.length > 0 
-        ? searchResults.map(recipe => <Card key={recipe.id} recipe={recipe} />)
-        : <p>Aucune recette de trouver</p>)
-    : filteredRecipes.map(recipe => <Card key={recipe.id} recipe={recipe} />)
-  }
+			{isSearching
+				? (searchResults.length > 0 
+					? searchResults.map(recipe => 
+						<Card 
+							key={recipe.id} 
+							recipe={recipe} 
+						/>)
+					: <p>Aucune recette trouvée</p>
+				)
+				: filteredRecipes.map(recipe => 
+					<Card 
+						key={recipe.id} 
+						recipe={recipe} 
+					/>
+				)
+			}
 		</div>
     </div>
   );

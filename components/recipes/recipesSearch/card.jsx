@@ -1,5 +1,5 @@
+"use client";
 import Image from "next/image";
-// Import du composant Image de Next.js, qui optimise automatiquement le chargement des images
 import Link from "next/link";
 // Import du composant Link de Next.js pour créer des liens internes rapides et optimisés.
 import "@/app/card.css"

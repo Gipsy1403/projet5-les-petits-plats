@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
           className : applique les polices Anton et Manrope via les variables CSS
         */}
 		<Header />
-		<Home>{children}</Home>
+		{children}
 		{/* <Main allRecipes={allRecipes}/> */}
 		<Footer />
       </body>

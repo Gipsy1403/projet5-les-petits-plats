@@ -18,35 +18,20 @@ function RecipeDescription({description}){
 export default async function RecipePage({ params }) {
 	// Déclaration du composant RecipePage comme fonction asynchrone
 // params : objet contenant les paramètres dynamiques de l'URL (ex: slug)
-  const { slug } = await params;
+//   const { slug } = await params;
+	const {slug}= await params;
   // Récupère le paramètre 'slug' depuis l'URL. 
   // 'await' n'est pas nécessaire ici si params n’est pas une promesse, mais garde l’asynchronicité si tu prévois des fetchs
-  const recipe = recipes.find((r) => r.slug === slug);
-
+	const recipe=recipes.find((r=>r.slug===slug));
+//   const recipe = recipes.find((r) => r.slug === slug);
     // Recherche dans le tableau recipes la recette dont le slug correspond au paramètre de l’URL
-    console.log("🧪 params:", params);
-
-	console.log("🧪 params.slug reçu :", slug);
-console.log("📚 Nombre total de recettes :", recipes.length);
-console.log("🔍 Recette trouvée :", recipe);
-
   if (!recipe) {
     return <NotFound/>;
   }
 
   return (
 	<div>
-		<div className="recipe_page_header">
-			<div className="logo">
-				<Image
-					src="/assets/IMG/Logo.png"
-					alt="Logo Les Petits Plats"
-					width={207}
-					height={25}
-					sizes="(max-width: 768px) 40vw, 350px"
-				/>
-			</div>
-		</div>
+
 		<div className="recipe_page_container">
 			<div className="recipe_page_image">
 				<Image 

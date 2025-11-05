@@ -53,7 +53,6 @@ export default function SearchBar({allRecipes, onSearchResults}) {
 
             return name || description || ingredients;
         });
-  console.log("🎯 Résultats trouvés :", filtered);
         setResults(filtered);
 	   onSearchResults(filtered, true);
     };

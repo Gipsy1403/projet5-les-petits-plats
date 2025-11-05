@@ -1,4 +1,5 @@
 
+"use client";
 import recipesData from "@/data/recipes.json"
 import "./globals.css";
 import "./styles.css";
