@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import "@/app/recipe_page.css"; 
 
+
 export default function RecipeHeader() {
   return (
 	<div className="recipe_page_header">

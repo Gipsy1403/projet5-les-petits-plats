@@ -1,8 +1,6 @@
 import Image from "next/image";
 import "@/app/styles.css";
 
-
-
 export default function Header() {
 	  return (
 		<div className="header">

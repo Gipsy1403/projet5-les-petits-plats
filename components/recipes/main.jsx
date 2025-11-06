@@ -8,8 +8,6 @@ import "@/app/card.css"
 // useMemo : permet de mémoriser des calculs lourds (ici le filtrage des recettes)
 // et évite de recalculer à chaque rendu.
 
-
-
 export default function Main({allRecipes}) {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -65,7 +63,7 @@ export default function Main({allRecipes}) {
 	return allRecipes.filter(recipe => {
 		   // Sinon, on filtre les recettes selon les tags actifs.
 		return activeTags.every(tag => {
-			// every() vérifie que **tous les tags actifs** sont présents dans la recette.
+			// every() vérifie que tous les tags actifs sont présents dans la recette.
 		const value = tag.value.toLowerCase();
 		        // On met la valeur du tag en minuscule pour comparer sans tenir compte des majuscules/minuscules.
 		switch(tag.type){
