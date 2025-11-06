@@ -1,10 +1,10 @@
 import RecipeHeader from "@/components/recipeHeader"; 
 
-export default function RecetteLayout({ children }) {
+export default function RecipeLayout({ children }) {
   return (
     <>
       <RecipeHeader />
-      {children}
+      <main>{children}</main>
     </>
   );
 }

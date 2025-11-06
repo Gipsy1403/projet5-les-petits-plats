@@ -1,4 +1,3 @@
-// app/components/recetteHeader.jsx
 "use client";
 
 import Link from "next/link";
@@ -15,7 +14,7 @@ export default function RecipeHeader() {
 					alt="Logo Les Petits Plats"
 					width={207}
 					height={25}
-					sizes="(max-width: 768px) 40vw, 350px"
+					sizes="(max-width: 768px) 40vw, 207px"
 				/>
 			</Link>
 		</div>

@@ -2,8 +2,7 @@ import "./globals.css";
 import { Anton, Manrope } from "next/font/google";
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import Header from "@/components/header";
-import Home from "./page";
+import HeaderManager from "./headerManager";
 import Footer from "@/components/footer";
 
 config.autoAddCss = false;
@@ -33,8 +32,8 @@ export default function RootLayout({ children }) {
           suppressHydrationWarning : évite les warnings liés au rendu côté client vs serveur
           className : applique les polices Anton et Manrope via les variables CSS
         */}
-		<Header />
-		{children}
+		<HeaderManager>{children}</HeaderManager>
+		
 		{/* <Main allRecipes={allRecipes}/> */}
 		<Footer />
       </body>

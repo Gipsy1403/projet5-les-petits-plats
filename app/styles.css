@@ -1,6 +1,6 @@
 .header {
 	background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url('/assets/IMG/img_banner.jpg');
-	background-position: center, center -214px;
+	background-position: 0 65% ;
 	background-size: cover, cover;
 	background-repeat: no-repeat, no-repeat;
 	width: 100%;
@@ -24,13 +24,15 @@
 .title_banner {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	flex-direction: column;
 	color: #ffd15b;
 	font-size: 44px;
+	margin-top: 3em;
 }
-.span{
+/* .title_banner .span{
 	display: block;
-}
+} */
 .search-bar {
 	position :absolute;
 	background-color: white;
@@ -45,6 +47,7 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -10%);
+	margin-top: 5em;
 
 }
 .search-bar input {
@@ -84,4 +87,35 @@
 	color: white;
 }
 
+
+@media screen and (max-width: 1025px) {
+	.search-bar{
+		width: 80%;
+		margin-top: 7em;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.title_banner{
+		font-size: 38px;
+
+		padding: 0 2rem;
+	}
+}
+ @media screen and (max-width: 480px) {
+	.search-bar input{
+		font-size: 13px;
+	}
+}
+ @media screen and (max-width: 427px) {
+	.search-bar{
+		margin-top: 15em;
+	}
+	.search-bar input{
+		font-size: 11px;
+	}
+	.header .logo{
+		padding: 3em 1em;
+	}
+}
 
