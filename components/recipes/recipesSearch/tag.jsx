@@ -68,7 +68,7 @@ function CustomSelect({ name, item, tags, addTag, removeTag }) {
 
  
    const availableItems = item.filter(i => 
-	// filtre item pour retier ceux déjà présents dans les tags actifs du même type
+	// filtre item pour retirer ceux déjà présents dans les tags actifs du même type
   	!tags
 	// inverse la condition. si true = tag actif = retiré de la liste
 	// si false (tag non actif)= gardé dans la liste
@@ -78,7 +78,7 @@ function CustomSelect({ name, item, tags, addTag, removeTag }) {
     .map(t => t.value.toLowerCase())
 	// transforme cette liste en un tableau dont les valeurs sont mises en minuscule
     .includes(i.toLowerCase())
-	// vérifie si le tableau de valeurs contient l'élément courant i mis en minucule également
+	// vérifie si le tableau de valeurs contient l'élément courant i mis en minuscule également
 );
 
   const filterItems = search.length >= 3
@@ -158,8 +158,8 @@ function CustomSelect({ name, item, tags, addTag, removeTag }) {
 function normalize(word) {
 	return word
 		.toLowerCase()
-		// .normalize('NFD')
-		.replace(/\p{Diacritic}/gu, '');
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, "");
 }
 // Fonction pour nettoyer et formater les items (ingrédients, ustensiles, appareils)
 function cleanItems(items) {
@@ -179,6 +179,7 @@ function cleanItems(items) {
 		if(normalizedItems.includes(singular) && word !== singular) continue;
 		// Si le singulier existe déjà dans la liste, ignore la forme plurielle
 		if(!cleanedItems.includes(word)) cleanedItems.push(word);
+		// si le mot choisi n'est pas dans le tableau cleanedItems alors le mettre à l'intérieur
 	}
 	const formatedItems = cleanedItems.map(w => 
 		w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()

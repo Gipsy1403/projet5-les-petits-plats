@@ -9,8 +9,22 @@ function normalize(text) {
 	return text
 		.toLowerCase()
 		.normalize('NFD')
-		.replace(/\p{Diacritic}/gu, '');
+		.replace(/[\u0300-\u036f]/g, "");
 }
+
+function debounce(func, delay){
+// empêche d'appeler la fonction de recherche trop souvent pendant la frappe
+// ce qui améliore la performance
+	let timeout;
+//    variable pour compter le minuteur
+	return (...args) => {
+		clearTimeout(timeout);
+	//   reset du minuteur
+		timeout = setTimeout(() => func(...args), delay);
+		// on exécute la fonction après "delay" ms
+	};
+};
+
 
 export default function SearchBar({allRecipes, onSearchResults}) {
 	const [search, setSearch] = useState("");
@@ -18,29 +32,7 @@ export default function SearchBar({allRecipes, onSearchResults}) {
 	// useState, créé un état interne au composant
 	// - "search" stocke la valeur du champ de recherche
 	// - "results" contient la liste des recettes filtrées
-
-	const clearSearch=()=>{
-		// vide la recherche en réinitialisant le champ texte et les résultats
-		setSearch("");
-		setResults([]);
-		onSearchResults([], false);
-		// informe le parent (main) qu'il n'y a rien à afficher
-	}
-    
-    const debounce = (func, delay) => {
-	// empêche d'appeler la fonction de recherche trop souvent pendant la frappe
-	// ce qui améliore la performance
-        let timeout;
-	//    variable pour compter le minuteur
-        return (...args) => {
-            clearTimeout(timeout);
-		//   reset du minuteur
-            timeout = setTimeout(() => func(...args), delay);
-		  // on exécute la fonction après "delay" ms
-   
-        };
-    };
-
+  
     // Fonction de recherche
     const performSearch = (query) => {
         if (query.length < 3) {
@@ -90,6 +82,14 @@ const debouncedSearch = useCallback(
 // et grâce au debounce, la recherche ne s'effectuera qu'après 400ms.Si l'utilisateur
 // continue à saisir, le minuteur redémarre à chaque fois
 
+	const clearSearch=()=>{
+		// vide la recherche en réinitialisant le champ texte et les résultats
+		setSearch("");
+		setResults([]);
+		onSearchResults([], false);
+		// informe le parent (main) qu'il n'y a rien à afficher
+	}
+	
   return (
 	<div className="search-bar">
 		<input 

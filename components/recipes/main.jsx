@@ -92,7 +92,9 @@ export default function Main({allRecipes}) {
 			allRecipes={allRecipes} 
 			onSearchResults={(results, active) => {
 				setSearchResults(results);
+				// met à jour les résultats de recherche
 				setIsSearching(active);
+				// indique si une recherche est active
 			}}
 		/>
 		<Tag 

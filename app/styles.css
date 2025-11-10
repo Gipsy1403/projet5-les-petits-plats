@@ -81,7 +81,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 3rem;
+	/* margin-top: 3rem; */
 }
 .footer .icon_copyright{
 	color: white;
